@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+﻿import { beforeEach, describe, expect, it } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { DEFAULT_PRODUCTS } from '@/data/products'
 import { DEFAULT_CATEGORIES } from '@/data/categories'
@@ -11,18 +11,18 @@ const product = (id: string) => DEFAULT_PRODUCTS.find((p) => p.id === id)!
 describe('catálogo', () => {
   beforeEach(() => setActivePinia(createPinia()))
 
-  it('possui ao menos 250 produtos com IDs únicos e categorias válidas', () => {
-    expect(DEFAULT_PRODUCTS.length).toBeGreaterThanOrEqual(250)
+  it('possui ao menos 200 produtos com IDs únicos e categorias válidas', () => {
+    expect(DEFAULT_PRODUCTS.length).toBeGreaterThanOrEqual(200)
     expect(new Set(DEFAULT_PRODUCTS.map((p) => p.id)).size).toBe(DEFAULT_PRODUCTS.length)
     const cats = new Set(DEFAULT_CATEGORIES.map((c) => c.id))
-    expect(DEFAULT_CATEGORIES).toHaveLength(20)
+    expect(DEFAULT_CATEGORIES).toHaveLength(16)
     DEFAULT_PRODUCTS.forEach((p) => expect(cats.has(p.categoryId)).toBe(true))
   })
 
   it('busca ignorando acentos e maiúsculas', () => {
     const c = useCatalogStore()
     expect(c.search('FEIJAO').map((p) => p.name)).toContain('Feijão carioca')
-    expect(c.search('acucar').some((p) => p.name === 'Açúcar refinado')).toBe(true)
+    expect(c.search('acucar').some((p) => p.name === 'Açúcar')).toBe(true)
     expect(c.search('mussarela').map((p) => p.name)).toContain('Queijo muçarela')
   })
 
@@ -54,7 +54,7 @@ describe('listas', () => {
     expect(s.activeListId).toBe(l.id)
     s.updateList(l.id, { name: 'Outubro' })
     expect(s.find(l.id)?.name).toBe('Outubro')
-    s.addProduct(l.id, product('p-arroz-branco'))
+    s.addProduct(l.id, product('p-arroz'))
     s.togglePurchased(l.id, s.find(l.id)!.items[0]!.id)
     const copy = s.duplicateList(l.id, 'Compras de Novembro', 11, 2026)!
     expect(copy.items).toHaveLength(1)

@@ -55,6 +55,14 @@ const formOpen = ref(false)
 const editing = ref<Product | null>(null)
 function openNew() { editing.value = null; formOpen.value = true }
 function openEdit(p: Product) { editing.value = p; formOpen.value = true }
+/** Produtos já adicionados à lista ativa, na ordem em que foram incluídos */
+const selected = computed<Product[]>(() => {
+  const items = lists.activeList?.items ?? []
+  return [...items]
+    .sort((a, b) => a.position - b.position)
+    .map((i) => catalog.productMap.get(i.productId))
+    .filter((p): p is Product => !!p)
+})
 const itemOf = (id: string) => (lists.activeListId ? lists.itemFor(lists.activeListId, id) : undefined)
 </script>
 
@@ -94,6 +102,25 @@ const itemOf = (id: string) => (lists.activeListId ? lists.itemFor(lists.activeL
       >
         <AppButton v-if="filter !== '_fav'" @click="openNew"><Plus :size="18" /> Criar "{{ query || 'produto' }}"</AppButton>
       </EmptyState>
+
+      <section v-if="selected.length" class="mt-8" aria-labelledby="selected-title" data-testid="selected-products">
+        <h2 id="selected-title" class="mb-2 text-sm font-bold">
+          ✅ Selecionados ({{ selected.length }})
+        </h2>
+        <ul class="grid gap-2 lg:grid-cols-2">
+          <ProductCard
+            v-for="p in selected"
+            :key="`sel-${p.id}`"
+            :product="p"
+            :item="itemOf(p.id)"
+            :favorite="catalog.favoriteSet.has(p.id)"
+            @add="actions.addProduct(p)"
+            @dec="actions.decrementProduct(p.id)"
+            @favorite="catalog.toggleFavorite(p.id)"
+            @edit="openEdit(p)"
+          />
+        </ul>
+      </section>
     </div>
     <ProductFormDialog v-model:open="formOpen" :product="editing" :initial-name="query" />
   </div>

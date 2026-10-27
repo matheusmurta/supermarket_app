@@ -2,6 +2,8 @@
 import BottomNavigation from '@/components/layout/BottomNavigation.vue'
 import ToastNotification from '@/components/ui/ToastNotification.vue'
 import UpdatePrompt from '@/components/layout/UpdatePrompt.vue'
+
+const appVersion = __APP_VERSION__
 </script>
 
 <template>
@@ -16,6 +18,9 @@ import UpdatePrompt from '@/components/layout/UpdatePrompt.vue'
           <component :is="Component" />
         </Transition>
       </RouterView>
+      <footer class="px-4 pt-6 text-center text-xs text-ink-muted dark:text-slate-500" data-testid="app-version">
+        MeuMercado v{{ appVersion }}
+      </footer>
     </main>
   </div>
   <ToastNotification />

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+﻿import { beforeEach, describe, expect, it } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { DEFAULT_PRODUCTS } from '@/data/products'
 import { DEFAULT_CATEGORIES } from '@/data/categories'
@@ -17,12 +17,12 @@ describe('persistência', () => {
   it('persiste e reidrata após recarregar', () => {
     const s = useListsStore()
     const l = s.createList('Persistente')
-    s.addProduct(l.id, product('p-cafe-em-po'))
+    s.addProduct(l.id, product('p-cafe'))
     s.flush()
     setActivePinia(createPinia())
     const s2 = useListsStore()
     s2.hydrate()
-    expect(s2.find(l.id)?.items[0]?.name).toBe('Café em pó')
+    expect(s2.find(l.id)?.items[0]?.name).toBe('Café')
   })
 
   it('trata JSON corrompido preservando cópia', () => {
@@ -51,7 +51,7 @@ describe('compartilhamento WhatsApp', () => {
     s.togglePurchased(l.id, det.id)
     const msg = buildShareMessage(s.find(l.id)!, DEFAULT_CATEGORIES)
     expect(msg).toContain('🛒 *COMPRAS DO MÊS*')
-    expect(msg).toContain('🥦 *HORTIFRUTI*\n☐ Banana — 2 kg')
+    expect(msg).toContain('🍎 *FRUTAS*\n☐ Banana — 2 kg')
     expect(msg).toContain('☑ Detergente — 3 unidades')
     expect(msg).toContain('Total: 2 itens diferentes')
     expect(msg).toContain('Comprados: 1')

@@ -3,9 +3,9 @@ import { DEFAULT_PRODUCTS } from './products'
 
 /** Lista de exemplo oferecida no primeiro acesso */
 const SAMPLE_IDS = [
-  'p-arroz-branco',
+  'p-arroz',
   'p-feijao-carioca',
-  'p-cafe-em-po',
+  'p-cafe',
   'p-leite-integral',
   'p-ovos',
   'p-banana',
@@ -14,7 +14,7 @@ const SAMPLE_IDS = [
   'p-peito-de-frango',
   'p-carne-moida',
   'p-oleo-de-soja',
-  'p-acucar-refinado',
+  'p-acucar',
   'p-pao-de-forma',
   'p-detergente',
   'p-sabao-em-po',
